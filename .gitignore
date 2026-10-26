@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Python byte code & caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Data & Container volumes
+*.db
+*.sqlite3
+pgdata/
+
+# Environment variables & secrets
+.env
+*.local
+
+# Editor directories
+.vscode/
+.idea/
+
+# Benchmarking & temp outputs
+results/*.csv
+results/*.png

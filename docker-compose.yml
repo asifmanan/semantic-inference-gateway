@@ -1,0 +1,23 @@
+services:
+  pgvector:
+    image: docker.io/pgvector/pgvector:pg16
+    container_name: gateway_vector_db
+    environment:
+      POSTGRES_DB: inference_cache
+      POSTGRES_USER: gateway_admin
+      POSTGRES_PASSWORD: gateway_secret_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: docker.io/library/redis:7-alpine
+    container_name: gateway_exact_cache
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  pgdata:

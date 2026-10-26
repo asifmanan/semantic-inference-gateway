@@ -1,0 +1,23 @@
+# PyTorch CPU-only installation
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# --- Web & Async API Framework ---
+fastapi[standard]
+uvicorn[standard]
+httpx
+pydantic
+
+# --- Caching & Vector Database Drivers ---
+asyncpg
+pgvector
+redis
+
+# --- Embeddings & Deep Learning Engine ---
+sentence-transformers
+torch
+numpy
+
+# --- Benchmarking, Evaluation & Testing ---
+locust
+pytest
+pytest-asyncio
