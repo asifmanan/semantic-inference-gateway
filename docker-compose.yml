@@ -3,9 +3,9 @@ services:
     image: docker.io/pgvector/pgvector:pg16
     container_name: gateway_vector_db
     environment:
-      POSTGRES_DB: inference_cache
-      POSTGRES_USER: gateway_admin
-      POSTGRES_PASSWORD: gateway_secret_pass
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
