@@ -14,6 +14,12 @@ class Settings(BaseSettings):
     postgres_port: int
     postgres_db: str
 
+    # Redis L1 Cache Configuration
+    redis_l1_host: str
+    redis_l1_port: int
+    redis_l1_db: int
+    redis_l1_password: SecretStr | None = None
+
     @computed_field
     @property
     def asyncpg_dsn(self) -> str:
@@ -26,11 +32,23 @@ class Settings(BaseSettings):
             f"{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
         )
 
+    @computed_field
+    @property
+    def redis_l1_dsn(self) -> str:
+        """
+        Returns a DSN suitable for Redis connections.
+        """
+        password = self.redis_l1_password.get_secret_value() if self.redis_l1_password else None
+        if password:
+            return f"redis://:{password}@{self.redis_l1_host}:{self.redis_l1_port}/{self.redis_l1_db}"
+        return f"redis://{self.redis_l1_host}:{self.redis_l1_port}/{self.redis_l1_db}"
+
     model_config = SettingsConfigDict(
         env_file=".env", 
         env_file_encoding="utf-8", 
         extra="ignore"
     )
+
 
 @lru_cache
 def get_settings() -> Settings:
