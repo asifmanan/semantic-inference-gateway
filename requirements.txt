@@ -6,6 +6,7 @@ fastapi[standard]
 uvicorn[standard]
 httpx
 pydantic
+pydantic-settings
 
 # --- Caching & Vector Database Drivers ---
 asyncpg
