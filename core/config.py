@@ -20,6 +20,13 @@ class Settings(BaseSettings):
     redis_l1_db: int
     redis_l1_password: SecretStr | None = None
 
+    # Upstream LLM (OpenAI-compatible) Configuration
+    upstream_base_url: str = "http://localhost:11434/v1"
+    upstream_model: str = "llama3.2:1b"
+    upstream_timeout_seconds: float = 30.0
+    upstream_max_connections: int = 50
+    upstream_max_keepalive_connections: int = 20
+
     @computed_field
     @property
     def asyncpg_dsn(self) -> str:
