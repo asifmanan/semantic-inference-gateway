@@ -1,15 +1,24 @@
 # tests/test_gateway_api.py
 # Tests for the FastAPI gateway skeleton: lifespan wiring and the /health endpoint.
 import json
+import logging
+from contextlib import ExitStack
 from unittest.mock import patch
 
+import asyncpg
 import httpx
 import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
+from redis.exceptions import ConnectionError as RedisConnectionError
 
 from cache.embeddings import MODEL_NAME, async_encode_prompt
-from cache.redis_client import get_redis_client, hash_prompt, set_exact_match
+from cache.redis_client import (
+    get_exact_match,
+    get_redis_client,
+    hash_prompt,
+    set_exact_match,
+)
 from cache.semantic import insert_semantic_cache
 from gateway.app import app
 from gateway.upstream import UpstreamLLMClient
@@ -192,8 +201,16 @@ async def chat(client):
 
         @staticmethod
         async def post(prompt: str, **extra):
-            payload = {"messages": [{"role": "user", "content": prompt}], **extra}
+            # Requests carry TEST_MODEL so rows ingested in the background are tagged and cleaned up.
+            payload = {"model": TEST_MODEL, "messages": [{"role": "user", "content": prompt}], **extra}
             return await client.post("/v1/chat/completions", json=payload)
+
+        @staticmethod
+        async def db_rows() -> int:
+            async with app.state.pool.acquire() as conn:
+                return await conn.fetchval(
+                    "SELECT COUNT(*) FROM semantic_cache WHERE model_name = $1", TEST_MODEL
+                )
 
     try:
         yield Ctx
@@ -326,3 +343,123 @@ async def test_request_without_user_message_is_rejected(client):
         "/v1/chat/completions", json={"messages": [{"role": "system", "content": "be nice"}]}
     )
     assert response.status_code == 422
+
+
+# --- background cache ingestion & fail-open behaviour ---------------------------------------
+
+
+class MidStreamFailure(httpx.AsyncByteStream):
+    """SSE body that delivers some tokens, then drops the connection."""
+
+    async def __aiter__(self):
+        yield sse_body("Hel", "lo")[: -len(b"data: [DONE]\n\n")]
+        raise httpx.ReadError("connection reset")
+
+
+@pytest.mark.asyncio
+async def test_non_streaming_miss_is_ingested_and_served_from_l1(chat):
+    prompt = "What is the tallest mountain in the solar system?"
+    chat.track(prompt)
+
+    first = await chat.post(prompt)
+    assert first.headers["X-Cache-Status"] == "MISS"
+    assert len(chat.upstream.requests) == 1
+
+    second = await chat.post(prompt)
+    assert second.status_code == 200
+    assert second.headers["X-Cache-Status"] == "HIT-L1"
+    assert answer(second) == "upstream answer"
+    assert len(chat.upstream.requests) == 1  # upstream untouched
+    assert await chat.db_rows() == 1  # L2 was populated too
+
+
+@pytest.mark.asyncio
+async def test_streaming_miss_is_ingested_and_served_from_l2(chat):
+    stored = "Tell me the capital of France"
+    query = "What is the capital of France?"
+    chat.track(stored)
+    chat.track(query)
+    chat.upstream.response = lambda request: httpx.Response(
+        200, content=sse_body("Par", "is"), headers={"content-type": "text/event-stream"}
+    )
+
+    first = await chat.post(stored, stream=True)
+    assert first.headers["X-Cache-Status"] == "MISS"
+    assert "[DONE]" in first.text
+
+    second = await chat.post(query, similarity_threshold=0.85)
+    assert second.status_code == 200
+    assert second.headers["X-Cache-Status"] == "HIT-L2"
+    assert answer(second) == "Paris"
+    assert len(chat.upstream.requests) == 1
+
+
+@pytest.mark.asyncio
+async def test_mid_stream_error_does_not_persist_partial_output(chat):
+    prompt = "Recite a very long poem about the ocean."
+    chat.track(prompt)
+    chat.upstream.response = lambda request: httpx.Response(
+        200, stream=MidStreamFailure(), headers={"content-type": "text/event-stream"}
+    )
+
+    response = await chat.post(prompt, stream=True)
+
+    assert response.status_code == 200
+    assert '"error"' in response.text
+    assert "Hel" in response.text  # the client did see the partial tokens
+    assert await get_exact_match(prompt) is None
+    assert await chat.db_rows() == 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("failing", ["redis", "postgres", "both"])
+async def test_background_ingestion_failures_do_not_affect_client(chat, caplog, failing):
+    prompt = f"Name a famous lighthouse ({failing})."
+    chat.track(prompt)
+
+    with caplog.at_level(logging.WARNING, logger="gateway.routes"), ExitStack() as stack:
+        if failing in ("redis", "both"):
+            stack.enter_context(
+                patch("gateway.routes.set_exact_match", side_effect=RedisConnectionError("redis down"))
+            )
+        if failing in ("postgres", "both"):
+            stack.enter_context(
+                patch(
+                    "gateway.routes.insert_semantic_cache",
+                    side_effect=asyncpg.InterfaceError("pool closing"),
+                )
+            )
+        response = await chat.post(prompt)
+
+    assert response.status_code == 200
+    assert response.headers["X-Cache-Status"] == "MISS"
+    assert answer(response) == "upstream answer"
+    messages = " ".join(r.getMessage() for r in caplog.records)
+    assert ("Redis L1 write failed" in messages) == (failing in ("redis", "both"))
+    assert ("pgvector L2 write failed" in messages) == (failing in ("postgres", "both"))
+    # The tier that did not fail is still populated independently.
+    assert (await get_exact_match(prompt) is not None) == (failing == "postgres")
+    assert (await chat.db_rows() == 1) == (failing == "redis")
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    ("target", "error"),
+    [
+        ("gateway.routes.get_exact_match", RedisConnectionError("redis down")),
+        ("gateway.routes.query_semantic_cache", asyncpg.InterfaceError("pool closing")),
+    ],
+    ids=["redis-lookup-down", "postgres-lookup-down"],
+)
+async def test_lookup_failures_fail_open_to_upstream(chat, caplog, target, error):
+    prompt = "How tall is the Eiffel Tower?"
+    chat.track(prompt)
+
+    with caplog.at_level(logging.WARNING, logger="gateway.routes"), patch(target, side_effect=error):
+        response = await chat.post(prompt)
+
+    assert response.status_code == 200
+    assert response.headers["X-Cache-Status"] == "MISS"
+    assert answer(response) == "upstream answer"
+    assert len(chat.upstream.requests) == 1
+    assert any(r.levelno == logging.WARNING and "lookup failed" in r.getMessage() for r in caplog.records)

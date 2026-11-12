@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     upstream_max_connections: int = 50
     upstream_max_keepalive_connections: int = 20
 
+    # Cache Configuration
+    cache_ttl_seconds: int = 3600
+
     @computed_field
     @property
     def asyncpg_dsn(self) -> str:

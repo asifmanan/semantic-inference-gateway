@@ -3,15 +3,13 @@
 import logging
 from contextlib import asynccontextmanager
 
-import asyncpg
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from redis.exceptions import RedisError
 
 from cache.database import init_db
 from cache.embeddings import MODEL_NAME, get_embedding_model
 from cache.redis_client import close_redis, get_redis_client
-from gateway.routes import router
+from gateway.routes import POSTGRES_ERRORS, REDIS_ERRORS, router
 from gateway.upstream import UpstreamLLMClient
 
 
@@ -42,10 +40,6 @@ async def lifespan(app: FastAPI):
 
 
 logger = logging.getLogger(__name__)
-
-# Failures that mean "dependency unreachable or unhealthy"; anything else is a bug and should surface.
-REDIS_ERRORS = (RedisError, OSError, TimeoutError)
-POSTGRES_ERRORS = (asyncpg.PostgresError, asyncpg.InterfaceError, OSError, TimeoutError)
 
 app = FastAPI(title="MLSys Semantic Inference Gateway", lifespan=lifespan)
 app.include_router(router)

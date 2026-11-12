@@ -4,20 +4,27 @@ import json
 import logging
 import time
 import uuid
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, Callable
 
-from fastapi import APIRouter, HTTPException, Request
+import asyncpg
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
+from redis.exceptions import RedisError
 
 from cache.embeddings import async_encode_prompt
-from cache.redis_client import get_exact_match
-from cache.semantic import query_semantic_cache
+from cache.redis_client import get_exact_match, set_exact_match
+from cache.semantic import insert_semantic_cache, query_semantic_cache
+from core.config import get_settings
 from gateway.upstream import UpstreamInferenceError, UpstreamTimeoutError
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+# Failures that mean "dependency unreachable or unhealthy"; anything else is a bug and should surface.
+REDIS_ERRORS = (RedisError, OSError, TimeoutError)
+POSTGRES_ERRORS = (asyncpg.PostgresError, asyncpg.InterfaceError, OSError, TimeoutError)
 
 
 class ChatMessage(BaseModel):
@@ -72,20 +79,61 @@ def _chunk(completion_id: str, model: str, delta: dict, finish_reason: str | Non
     }
 
 
+async def ingest_cache_miss(
+    prompt: str,
+    response_text: str,
+    model_name: str,
+    pool: asyncpg.Pool,
+    ttl: int = 3600,
+) -> None:
+    """Write an upstream completion into L1 and L2. Fail-open: never raises."""
+    if not response_text or not response_text.strip():
+        return
+
+    try:
+        await set_exact_match(prompt, response_text, model_name, ttl=ttl)
+    except REDIS_ERRORS as exc:
+        logger.warning("Cache ingestion: Redis L1 write failed: %r", exc)
+
+    try:
+        vector = await async_encode_prompt(prompt)
+        await insert_semantic_cache(prompt, vector, response_text, model_name, pool)
+    except (*POSTGRES_ERRORS, ValueError, RuntimeError) as exc:
+        logger.warning("Cache ingestion: pgvector L2 write failed: %r", exc)
+
+
+def _extract_content(completion: dict) -> str:
+    try:
+        return completion["choices"][0]["message"]["content"] or ""
+    except (KeyError, IndexError, TypeError):
+        return ""
+
+
 async def _sse_stream(
-    tokens: AsyncGenerator[str, None], first_token: str | None, model: str
+    tokens: AsyncGenerator[str, None],
+    first_token: str | None,
+    model: str,
+    on_complete: Callable[[str], None],
 ) -> AsyncGenerator[str, None]:
-    """Re-emit upstream tokens as OpenAI chat.completion.chunk SSE events."""
+    """Re-emit upstream tokens as OpenAI chat.completion.chunk SSE events.
+
+    on_complete receives the full text only if the upstream stream finished cleanly.
+    """
     completion_id = f"chatcmpl-{uuid.uuid4().hex}"
+    parts: list[str] = []
     try:
         yield _sse(_chunk(completion_id, model, {"role": "assistant", "content": ""}))
         if first_token is not None:
+            parts.append(first_token)
             yield _sse(_chunk(completion_id, model, {"content": first_token}))
             async for token in tokens:
+                parts.append(token)
                 yield _sse(_chunk(completion_id, model, {"content": token}))
         yield _sse(_chunk(completion_id, model, {}, finish_reason="stop"))
+        on_complete("".join(parts))
     except UpstreamInferenceError as exc:
         # Headers are already sent, so the status code can't change; surface the failure in-band.
+        # Partial output is deliberately not passed to on_complete.
         logger.error("Upstream failed mid-stream: %s", exc)
         yield _sse({"error": {"message": str(exc), "type": type(exc).__name__}})
     finally:
@@ -99,36 +147,59 @@ def _upstream_http_error(exc: UpstreamInferenceError) -> HTTPException:
 
 
 @router.post("/v1/chat/completions")
-async def chat_completions(body: ChatCompletionRequest, request: Request):
+async def chat_completions(
+    body: ChatCompletionRequest, request: Request, background_tasks: BackgroundTasks
+):
     state = request.app.state
+    settings = get_settings()
     prompt = extract_prompt(body.messages)
 
-    # Tier 1: Redis exact match
-    hit = await get_exact_match(prompt)
+    # Tier 1: Redis exact match (fail-open)
+    try:
+        hit = await get_exact_match(prompt)
+    except REDIS_ERRORS as exc:
+        logger.warning("Redis L1 lookup failed, falling through to L2: %r", exc)
+        hit = None
     if hit is not None:
         return JSONResponse(
             build_cached_completion(hit, body.model), headers={"X-Cache-Status": "HIT-L1"}
         )
 
-    # Tier 2: pgvector semantic match
-    vector = await async_encode_prompt(prompt)
-    hit = await query_semantic_cache(prompt, vector, state.pool, body.similarity_threshold)
+    # Tier 2: pgvector semantic match (fail-open)
+    try:
+        vector = await async_encode_prompt(prompt)
+        hit = await query_semantic_cache(prompt, vector, state.pool, body.similarity_threshold)
+    except POSTGRES_ERRORS as exc:
+        logger.warning("pgvector L2 lookup failed, falling through to upstream: %r", exc)
+        hit = None
     if hit is not None:
         return JSONResponse(
             build_cached_completion(hit, body.model), headers={"X-Cache-Status": "HIT-L2"}
         )
 
-    # Tier 3: upstream LLM
+    # Tier 3: upstream LLM, then write the result back to both cache tiers in the background
     messages = [m.model_dump() for m in body.messages]
     kwargs = {} if body.temperature is None else {"temperature": body.temperature}
     headers = {"X-Cache-Status": "MISS"}
+    resolved_model = body.model or state.upstream.model
+
+    def schedule_ingestion(response_text: str) -> None:
+        background_tasks.add_task(
+            ingest_cache_miss,
+            prompt,
+            response_text,
+            resolved_model,
+            state.pool,
+            settings.cache_ttl_seconds,
+        )
 
     if not body.stream:
         try:
             completion = await state.upstream.generate_completion(messages, body.model, **kwargs)
         except UpstreamInferenceError as exc:
             raise _upstream_http_error(exc) from exc
-        return JSONResponse(completion, headers=headers)
+        schedule_ingestion(_extract_content(completion))
+        return JSONResponse(completion, headers=headers, background=background_tasks)
 
     tokens = state.upstream.stream_completion(messages, body.model, **kwargs)
     try:
@@ -136,7 +207,9 @@ async def chat_completions(body: ChatCompletionRequest, request: Request):
         first_token = await anext(tokens, None)
     except UpstreamInferenceError as exc:
         raise _upstream_http_error(exc) from exc
-    model = body.model or state.upstream.model
     return StreamingResponse(
-        _sse_stream(tokens, first_token, model), media_type="text/event-stream", headers=headers
+        _sse_stream(tokens, first_token, resolved_model, schedule_ingestion),
+        media_type="text/event-stream",
+        headers=headers,
+        background=background_tasks,
     )
