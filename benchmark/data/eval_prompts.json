@@ -1,0 +1,1580 @@
+{
+  "metadata": {
+    "seed": 42,
+    "total_queries": 200,
+    "ratios": {
+      "l1": 0.3,
+      "l2": 0.4,
+      "miss": 0.3
+    }
+  },
+  "seed_prompts": [
+    {
+      "id": "seed-000",
+      "prompt": "What is the capital city of Australia?",
+      "reference_answer": "The capital of Australia is Canberra."
+    },
+    {
+      "id": "seed-001",
+      "prompt": "What is the longest river in Africa?",
+      "reference_answer": "The Nile is generally considered the longest river in Africa."
+    },
+    {
+      "id": "seed-002",
+      "prompt": "How many countries are in the European Union as of 2024?",
+      "reference_answer": "As of 2024 the European Union has 27 member states."
+    },
+    {
+      "id": "seed-003",
+      "prompt": "What is the highest mountain above sea level on Earth?",
+      "reference_answer": "Mount Everest, at about 8,849 metres above sea level."
+    },
+    {
+      "id": "seed-004",
+      "prompt": "Which ocean is the largest by surface area?",
+      "reference_answer": "The Pacific Ocean is the largest by surface area."
+    },
+    {
+      "id": "seed-005",
+      "prompt": "What is the capital of Canada?",
+      "reference_answer": "The capital of Canada is Ottawa."
+    },
+    {
+      "id": "seed-006",
+      "prompt": "What is the chemical symbol for gold?",
+      "reference_answer": "The chemical symbol for gold is Au."
+    },
+    {
+      "id": "seed-007",
+      "prompt": "How fast does light travel in a vacuum?",
+      "reference_answer": "Light travels at about 299,792 kilometres per second in a vacuum."
+    },
+    {
+      "id": "seed-008",
+      "prompt": "What gas do plants absorb during photosynthesis?",
+      "reference_answer": "Plants absorb carbon dioxide during photosynthesis."
+    },
+    {
+      "id": "seed-009",
+      "prompt": "How many bones are in the adult human body?",
+      "reference_answer": "An adult human body has 206 bones."
+    },
+    {
+      "id": "seed-010",
+      "prompt": "What is the boiling point of water at sea level in Celsius?",
+      "reference_answer": "Water boils at 100 degrees Celsius at sea level."
+    },
+    {
+      "id": "seed-011",
+      "prompt": "Which planet is closest to the Sun?",
+      "reference_answer": "Mercury is the closest planet to the Sun."
+    },
+    {
+      "id": "seed-012",
+      "prompt": "What is the powerhouse of the cell?",
+      "reference_answer": "The mitochondrion is the powerhouse of the cell."
+    },
+    {
+      "id": "seed-013",
+      "prompt": "In what year did World War II end?",
+      "reference_answer": "World War II ended in 1945."
+    },
+    {
+      "id": "seed-014",
+      "prompt": "Who was the first President of the United States?",
+      "reference_answer": "George Washington was the first U.S. President."
+    },
+    {
+      "id": "seed-015",
+      "prompt": "In which year did the Berlin Wall fall?",
+      "reference_answer": "The Berlin Wall fell in 1989."
+    },
+    {
+      "id": "seed-016",
+      "prompt": "Which ancient civilization built Machu Picchu?",
+      "reference_answer": "The Inca civilization built Machu Picchu."
+    },
+    {
+      "id": "seed-017",
+      "prompt": "When did the Apollo 11 mission land on the Moon in 1969?",
+      "reference_answer": "Apollo 11 landed on the Moon on July 20, 1969."
+    },
+    {
+      "id": "seed-018",
+      "prompt": "Who wrote the play Romeo and Juliet?",
+      "reference_answer": "William Shakespeare wrote Romeo and Juliet."
+    },
+    {
+      "id": "seed-019",
+      "prompt": "What does HTTP stand for?",
+      "reference_answer": "HTTP stands for HyperText Transfer Protocol."
+    },
+    {
+      "id": "seed-020",
+      "prompt": "What is the time complexity of binary search?",
+      "reference_answer": "Binary search runs in O(log n) time."
+    },
+    {
+      "id": "seed-021",
+      "prompt": "How many bits are in a byte?",
+      "reference_answer": "A byte contains 8 bits."
+    },
+    {
+      "id": "seed-022",
+      "prompt": "Who created the Linux kernel and in what year was it first released?",
+      "reference_answer": "Linus Torvalds created Linux, first released in 1991."
+    },
+    {
+      "id": "seed-023",
+      "prompt": "What is the default port number for HTTPS?",
+      "reference_answer": "The default port for HTTPS is 443."
+    },
+    {
+      "id": "seed-024",
+      "prompt": "What is the difference between a stack and a queue?",
+      "reference_answer": "A stack is last-in-first-out; a queue is first-in-first-out."
+    },
+    {
+      "id": "seed-025",
+      "prompt": "What is 15% of 200?",
+      "reference_answer": "15% of 200 is 30."
+    },
+    {
+      "id": "seed-026",
+      "prompt": "What is the square root of 144?",
+      "reference_answer": "The square root of 144 is 12."
+    },
+    {
+      "id": "seed-027",
+      "prompt": "How much is $1,000 worth after 5 years at 5% annual compound interest?",
+      "reference_answer": "$1,000 * 1.05^5 is approximately $1,276.28."
+    },
+    {
+      "id": "seed-028",
+      "prompt": "What was the US federal minimum wage in 2020?",
+      "reference_answer": "The US federal minimum wage in 2020 was $7.25 per hour."
+    },
+    {
+      "id": "seed-029",
+      "prompt": "What is the sum of the interior angles of a triangle in degrees?",
+      "reference_answer": "The interior angles of a triangle sum to 180 degrees."
+    },
+    {
+      "id": "seed-030",
+      "prompt": "What was the population of the world in 2000?",
+      "reference_answer": "The world population in 2000 was roughly 6.1 billion."
+    },
+    {
+      "id": "seed-031",
+      "prompt": "If a store offers a 20% discount on a $50 item, what is the sale price?",
+      "reference_answer": "The sale price is $40."
+    },
+    {
+      "id": "seed-032",
+      "prompt": "What was the S&P 500 annual return in 2008?",
+      "reference_answer": "The S&P 500 fell roughly 37% in 2008 (total return)."
+    }
+  ],
+  "eval_queries": [
+    {
+      "id": "q-0000",
+      "prompt": "Who  wrote the play Romeo and Juliet?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-018"
+    },
+    {
+      "id": "q-0001",
+      "prompt": "  How fast does light travel in a vacuum?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-007"
+    },
+    {
+      "id": "q-0002",
+      "prompt": "Compute the square root of 144.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-026"
+    },
+    {
+      "id": "q-0003",
+      "prompt": "What is the capital of Cambodia?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-005"
+    },
+    {
+      "id": "q-0004",
+      "prompt": "  Which ancient civilization built Machu Picchu?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-016"
+    },
+    {
+      "id": "q-0005",
+      "prompt": "How many people lived on Earth in 2000?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-030"
+    },
+    {
+      "id": "q-0006",
+      "prompt": "  What is the square root of 144?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-026"
+    },
+    {
+      "id": "q-0007",
+      "prompt": "How many bits are in a byte?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-021"
+    },
+    {
+      "id": "q-0008",
+      "prompt": "When did the Berlin Wall collapse, in which year?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-015"
+    },
+    {
+      "id": "q-0009",
+      "prompt": "  If a store offers a 20% discount on a $50 item, what is the sale price?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-031"
+    },
+    {
+      "id": "q-0010",
+      "prompt": "How quickly does light propagate in a vacuum?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-007"
+    },
+    {
+      "id": "q-0011",
+      "prompt": "what is the longest river in africa?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-001"
+    },
+    {
+      "id": "q-0012",
+      "prompt": "What was the S&P 500 annual return in 2021?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-032"
+    },
+    {
+      "id": "q-0013",
+      "prompt": "How efficient is binary search in big-O terms?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-020"
+    },
+    {
+      "id": "q-0014",
+      "prompt": "What are the health benefits of regular meditation?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0015",
+      "prompt": "what is the sum of the interior angles of a triangle in degrees?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-029"
+    },
+    {
+      "id": "q-0016",
+      "prompt": "Who  wrote the play Romeo and Juliet?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-018"
+    },
+    {
+      "id": "q-0017",
+      "prompt": "What is the brain of the cell?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-012"
+    },
+    {
+      "id": "q-0018",
+      "prompt": "A byte is made up of how many bits?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-021"
+    },
+    {
+      "id": "q-0019",
+      "prompt": "WHAT WAS THE S&P 500 ANNUAL RETURN IN 2008?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-032"
+    },
+    {
+      "id": "q-0020",
+      "prompt": "When did the Apollo 11 mission land on the Moon in 1972?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-017"
+    },
+    {
+      "id": "q-0021",
+      "prompt": "In which year was the Berlin Wall built 1961?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-015"
+    },
+    {
+      "id": "q-0022",
+      "prompt": "what was the s&p 500 annual return in 2008?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-032"
+    },
+    {
+      "id": "q-0023",
+      "prompt": "WHICH ANCIENT CIVILIZATION BUILT MACHU PICCHU?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-016"
+    },
+    {
+      "id": "q-0024",
+      "prompt": "What is the capital city of Austria?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-000"
+    },
+    {
+      "id": "q-0025",
+      "prompt": "What is the difference between a stack and a heap?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-024"
+    },
+    {
+      "id": "q-0026",
+      "prompt": "Which planet is closest to the Sun?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-011"
+    },
+    {
+      "id": "q-0027",
+      "prompt": "What year did the Berlin Wall come down?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-015"
+    },
+    {
+      "id": "q-0028",
+      "prompt": "What should I pack for a week-long camping trip?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0029",
+      "prompt": "Which planet has the smallest orbit around the Sun?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-011"
+    },
+    {
+      "id": "q-0030",
+      "prompt": "Describe the plot of the novel Moby-Dick.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0031",
+      "prompt": "Who created the Linux kernel and in what year was it first released?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-022"
+    },
+    {
+      "id": "q-0032",
+      "prompt": "What year did the Second World War come to an end?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-013"
+    },
+    {
+      "id": "q-0033",
+      "prompt": "The interior angles of a triangle total how many degrees?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-029"
+    },
+    {
+      "id": "q-0034",
+      "prompt": "How many bones are in the newborn human body at 300?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-009"
+    },
+    {
+      "id": "q-0035",
+      "prompt": "How many degrees do a triangle's interior angles add up to?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-029"
+    },
+    {
+      "id": "q-0036",
+      "prompt": "How efficient is binary search in big-O terms?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-020"
+    },
+    {
+      "id": "q-0037",
+      "prompt": "What is the time complexity of linear search?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-020"
+    },
+    {
+      "id": "q-0038",
+      "prompt": "What is the number of EU member states in 2024?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-002"
+    },
+    {
+      "id": "q-0039",
+      "prompt": "What  is the longest river in Africa?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-001"
+    },
+    {
+      "id": "q-0040",
+      "prompt": "Which city serves as Australia's capital?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-000"
+    },
+    {
+      "id": "q-0041",
+      "prompt": "HTTPS listens on what default port number?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-023"
+    },
+    {
+      "id": "q-0042",
+      "prompt": "Which symbol represents gold on the periodic table?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-006"
+    },
+    {
+      "id": "q-0043",
+      "prompt": "How much is $1,000 worth after 10 years at 5% annual compound interest?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-027"
+    },
+    {
+      "id": "q-0044",
+      "prompt": "What is the number of bones in an adult human?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-009"
+    },
+    {
+      "id": "q-0045",
+      "prompt": "An adult person has how many bones?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-009"
+    },
+    {
+      "id": "q-0046",
+      "prompt": "  What is the square root of 144?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-026"
+    },
+    {
+      "id": "q-0047",
+      "prompt": "Who made the Linux kernel, and when was it first released?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-022"
+    },
+    {
+      "id": "q-0048",
+      "prompt": "what is the default port number for https?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-023"
+    },
+    {
+      "id": "q-0049",
+      "prompt": "What is the chemical symbol for silver?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-006"
+    },
+    {
+      "id": "q-0050",
+      "prompt": "  Which planet is closest to the Sun?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-011"
+    },
+    {
+      "id": "q-0051",
+      "prompt": "What is the capital of Canada?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-005"
+    },
+    {
+      "id": "q-0052",
+      "prompt": "How many people lived on Earth in 2000?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-030"
+    },
+    {
+      "id": "q-0053",
+      "prompt": "How  many bones are in the adult human body?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-009"
+    },
+    {
+      "id": "q-0054",
+      "prompt": "Which port does HTTPS use by default?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-023"
+    },
+    {
+      "id": "q-0055",
+      "prompt": "What  is the difference between a stack and a queue?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-024"
+    },
+    {
+      "id": "q-0056",
+      "prompt": "IN WHAT YEAR DID WORLD WAR II END?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-013"
+    },
+    {
+      "id": "q-0057",
+      "prompt": "WHAT IS THE SUM OF THE INTERIOR ANGLES OF A TRIANGLE IN DEGREES?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-029"
+    },
+    {
+      "id": "q-0058",
+      "prompt": "What peak is the highest above sea level in the world?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-003"
+    },
+    {
+      "id": "q-0059",
+      "prompt": "Who created the Linux kernel and in what year was it first released, 2001?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-022"
+    },
+    {
+      "id": "q-0060",
+      "prompt": "What gas do plants use up when they photosynthesize?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-008"
+    },
+    {
+      "id": "q-0061",
+      "prompt": "How many bits are in a kilobyte of 16 bytes?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-021"
+    },
+    {
+      "id": "q-0062",
+      "prompt": "What temperature in Celsius does water boil at at sea level?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-010"
+    },
+    {
+      "id": "q-0063",
+      "prompt": "What ancient people constructed Machu Picchu?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-016"
+    },
+    {
+      "id": "q-0064",
+      "prompt": "Which person created the Linux kernel and in which year did it debut?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-022"
+    },
+    {
+      "id": "q-0065",
+      "prompt": "What is the role of the Supreme Court?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0066",
+      "prompt": "how many countries are in the european union as of 2024?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-002"
+    },
+    {
+      "id": "q-0067",
+      "prompt": "Suggest a three-day itinerary for Kyoto.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0068",
+      "prompt": "Name the capital city of Canada.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-005"
+    },
+    {
+      "id": "q-0069",
+      "prompt": "What is the biggest ocean in terms of surface area?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-004"
+    },
+    {
+      "id": "q-0070",
+      "prompt": "Which planet is farthest from the Sun?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-011"
+    },
+    {
+      "id": "q-0071",
+      "prompt": "If a store offers a 30% discount on a $50 item, what is the sale price?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-031"
+    },
+    {
+      "id": "q-0072",
+      "prompt": "What  is the boiling point of water at sea level in Celsius?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-010"
+    },
+    {
+      "id": "q-0073",
+      "prompt": "What year did the Second World War come to an end?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-013"
+    },
+    {
+      "id": "q-0074",
+      "prompt": "In 2024, how many countries make up the European Union?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-002"
+    },
+    {
+      "id": "q-0075",
+      "prompt": "What makes jazz different from blues?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0076",
+      "prompt": "What is the meaning of the word serendipity?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0077",
+      "prompt": "  What is the default port number for HTTPS?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-023"
+    },
+    {
+      "id": "q-0078",
+      "prompt": "Which mountain has the greatest elevation above sea level on Earth?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-003"
+    },
+    {
+      "id": "q-0079",
+      "prompt": "What return did the S&P 500 deliver in 2008?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-032"
+    },
+    {
+      "id": "q-0080",
+      "prompt": "How do I remove a red wine stain from a carpet?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0081",
+      "prompt": "Which city is Canada's capital?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-005"
+    },
+    {
+      "id": "q-0082",
+      "prompt": "Calculate 15 percent of 200.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-025"
+    },
+    {
+      "id": "q-0083",
+      "prompt": "How much do you pay for a $50 product with 20% off?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-031"
+    },
+    {
+      "id": "q-0084",
+      "prompt": "What is the default port number for HTTP 8080?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-023"
+    },
+    {
+      "id": "q-0085",
+      "prompt": "WHEN DID THE APOLLO 11 MISSION LAND ON THE MOON IN 1969?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-017"
+    },
+    {
+      "id": "q-0086",
+      "prompt": "Which gas is taken in by plants for photosynthesis?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-008"
+    },
+    {
+      "id": "q-0087",
+      "prompt": "Which organelle is known as the cell's powerhouse?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-012"
+    },
+    {
+      "id": "q-0088",
+      "prompt": "World War II concluded in which year?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-013"
+    },
+    {
+      "id": "q-0089",
+      "prompt": "How do I bake sourdough bread at home?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0090",
+      "prompt": "what is the highest mountain above sea level on earth?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-003"
+    },
+    {
+      "id": "q-0091",
+      "prompt": "what is 15% of 200?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-025"
+    },
+    {
+      "id": "q-0092",
+      "prompt": "What was the S&P 500's yearly performance in 2008?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-032"
+    },
+    {
+      "id": "q-0093",
+      "prompt": "How does a refrigerator keep food cold?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0094",
+      "prompt": "Who was the second President of the United States?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-014"
+    },
+    {
+      "id": "q-0095",
+      "prompt": "Why is the sky blue during the day?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0096",
+      "prompt": "How does a mortgage work for first-time buyers?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0097",
+      "prompt": "  What does HTTP stand for?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-019"
+    },
+    {
+      "id": "q-0098",
+      "prompt": "What is the biggest ocean in terms of surface area?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-004"
+    },
+    {
+      "id": "q-0099",
+      "prompt": "Explain the rules of cricket to a beginner.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0100",
+      "prompt": "After 5 years at 5% yearly compounding, what is $1,000 worth?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-027"
+    },
+    {
+      "id": "q-0101",
+      "prompt": "What is the best way to learn to play the guitar?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0102",
+      "prompt": "At what speed does light move through a vacuum?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-007"
+    },
+    {
+      "id": "q-0103",
+      "prompt": "what is the chemical symbol for gold?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-006"
+    },
+    {
+      "id": "q-0104",
+      "prompt": "How do I train a puppy to sit?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0105",
+      "prompt": "What does HTTPS stand for?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-019"
+    },
+    {
+      "id": "q-0106",
+      "prompt": "Which number squared equals 144?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-026"
+    },
+    {
+      "id": "q-0107",
+      "prompt": "How  many bones are in the adult human body?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-009"
+    },
+    {
+      "id": "q-0108",
+      "prompt": "Romeo and Juliet was written by whom?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-018"
+    },
+    {
+      "id": "q-0109",
+      "prompt": "WHAT IS THE BOILING POINT OF WATER AT SEA LEVEL IN CELSIUS?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-010"
+    },
+    {
+      "id": "q-0110",
+      "prompt": "What is the full form of HTTP?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-019"
+    },
+    {
+      "id": "q-0111",
+      "prompt": "What  was the US federal minimum wage in 2020?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-028"
+    },
+    {
+      "id": "q-0112",
+      "prompt": "What was the population of the world in 2000?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-030"
+    },
+    {
+      "id": "q-0113",
+      "prompt": "How many countries are in the European Union as of 2004?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-002"
+    },
+    {
+      "id": "q-0114",
+      "prompt": "Name Africa's longest river.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-001"
+    },
+    {
+      "id": "q-0115",
+      "prompt": "How do airplanes stay in the air?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0116",
+      "prompt": "What is the biggest ocean in terms of surface area?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-004"
+    },
+    {
+      "id": "q-0117",
+      "prompt": "What ancient people constructed Machu Picchu?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-016"
+    },
+    {
+      "id": "q-0118",
+      "prompt": "What was the US federal minimum wage in 2024?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-028"
+    },
+    {
+      "id": "q-0119",
+      "prompt": "Name the first U.S. President.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-014"
+    },
+    {
+      "id": "q-0120",
+      "prompt": "Which planet has the smallest orbit around the Sun?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-011"
+    },
+    {
+      "id": "q-0121",
+      "prompt": "Canada's national capital is which city?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-005"
+    },
+    {
+      "id": "q-0122",
+      "prompt": "how much is $1,000 worth after 5 years at 5% annual compound interest?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-027"
+    },
+    {
+      "id": "q-0123",
+      "prompt": "What is 15% of 200?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-025"
+    },
+    {
+      "id": "q-0124",
+      "prompt": "How do vaccines train the immune system?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0125",
+      "prompt": "WHAT IS THE POWERHOUSE OF THE CELL?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-012"
+    },
+    {
+      "id": "q-0126",
+      "prompt": "How do bees make honey?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0127",
+      "prompt": "WHO CREATED THE LINUX KERNEL AND IN WHAT YEAR WAS IT FIRST RELEASED?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-022"
+    },
+    {
+      "id": "q-0128",
+      "prompt": "What distinguishes a stack from a queue data structure?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-024"
+    },
+    {
+      "id": "q-0129",
+      "prompt": "Compose a short poem about the ocean at night.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0130",
+      "prompt": "What ancient people constructed Machu Picchu?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-016"
+    },
+    {
+      "id": "q-0131",
+      "prompt": "Calculate 15 percent of 200.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-025"
+    },
+    {
+      "id": "q-0132",
+      "prompt": "Who served as America's first president?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-014"
+    },
+    {
+      "id": "q-0133",
+      "prompt": "How many people lived on Earth in 2000?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-030"
+    },
+    {
+      "id": "q-0134",
+      "prompt": "What is 25% of 200?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-025"
+    },
+    {
+      "id": "q-0135",
+      "prompt": "How fast does sound travel in a vacuum?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-007"
+    },
+    {
+      "id": "q-0136",
+      "prompt": "Name Africa's longest river.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-001"
+    },
+    {
+      "id": "q-0137",
+      "prompt": "Which ancient civilization built Chichen Itza?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-016"
+    },
+    {
+      "id": "q-0138",
+      "prompt": "What symbol does gold have in chemistry?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-006"
+    },
+    {
+      "id": "q-0139",
+      "prompt": "What gas do plants absorb during photosynthesis?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-008"
+    },
+    {
+      "id": "q-0140",
+      "prompt": "IN WHICH YEAR DID THE BERLIN WALL FALL?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-015"
+    },
+    {
+      "id": "q-0141",
+      "prompt": "What is the Pythagorean theorem used for in architecture?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0142",
+      "prompt": "HTTPS listens on what default port number?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-023"
+    },
+    {
+      "id": "q-0143",
+      "prompt": "What gas do plants release during photosynthesis?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-008"
+    },
+    {
+      "id": "q-0144",
+      "prompt": "Gold is abbreviated with what chemical symbol?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-006"
+    },
+    {
+      "id": "q-0145",
+      "prompt": "What is the longest river in South America?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-001"
+    },
+    {
+      "id": "q-0146",
+      "prompt": "Which ocean is the smallest by surface area?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-004"
+    },
+    {
+      "id": "q-0147",
+      "prompt": "  What is the capital city of Australia?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-000"
+    },
+    {
+      "id": "q-0148",
+      "prompt": "What planet orbits nearest to the Sun?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-011"
+    },
+    {
+      "id": "q-0149",
+      "prompt": "Australia's seat of government is in which city?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-000"
+    },
+    {
+      "id": "q-0150",
+      "prompt": "On what date in 1969 did Apollo 11 land on the Moon?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-017"
+    },
+    {
+      "id": "q-0151",
+      "prompt": "who was the first president of the united states?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-014"
+    },
+    {
+      "id": "q-0152",
+      "prompt": "Explain what a neural network is to a child.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0153",
+      "prompt": "how many countries are in the european union as of 2024?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-002"
+    },
+    {
+      "id": "q-0154",
+      "prompt": "  What is the highest mountain above sea level on Earth?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-003"
+    },
+    {
+      "id": "q-0155",
+      "prompt": "Write a haiku about autumn leaves.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0156",
+      "prompt": "HTTP is an acronym for what?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-019"
+    },
+    {
+      "id": "q-0157",
+      "prompt": "An adult person has how many bones?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-009"
+    },
+    {
+      "id": "q-0158",
+      "prompt": "What  was the population of the world in 2000?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-030"
+    },
+    {
+      "id": "q-0159",
+      "prompt": "what is the powerhouse of the cell?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-012"
+    },
+    {
+      "id": "q-0160",
+      "prompt": "How much do you pay for a $50 product with 20% off?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-031"
+    },
+    {
+      "id": "q-0161",
+      "prompt": "What causes the northern lights?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0162",
+      "prompt": "Name the cell's powerhouse.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-012"
+    },
+    {
+      "id": "q-0163",
+      "prompt": "  What was the US federal minimum wage in 2020?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-028"
+    },
+    {
+      "id": "q-0164",
+      "prompt": "in which year did the berlin wall fall?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-015"
+    },
+    {
+      "id": "q-0165",
+      "prompt": "What did the US federal minimum wage stand at in 2020?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-028"
+    },
+    {
+      "id": "q-0166",
+      "prompt": "Explain how a bill becomes law in a parliamentary system.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0167",
+      "prompt": "What are the main differences between Python and Rust?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0168",
+      "prompt": "What was the 1969 Moon landing date of Apollo 11?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-017"
+    },
+    {
+      "id": "q-0169",
+      "prompt": "Describe the water cycle in simple terms.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0170",
+      "prompt": "what is the time complexity of binary search?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-020"
+    },
+    {
+      "id": "q-0171",
+      "prompt": "What is the number of bits in one byte?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-021"
+    },
+    {
+      "id": "q-0172",
+      "prompt": "  When did the Apollo 11 mission land on the Moon in 1969?  ",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-017"
+    },
+    {
+      "id": "q-0173",
+      "prompt": "What  is the capital of Canada?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-005"
+    },
+    {
+      "id": "q-0174",
+      "prompt": "Romeo and Juliet was written by whom?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-018"
+    },
+    {
+      "id": "q-0175",
+      "prompt": "what is the time complexity of binary search?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-020"
+    },
+    {
+      "id": "q-0176",
+      "prompt": "Who wrote the play Hamlet and Juliet?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-018"
+    },
+    {
+      "id": "q-0177",
+      "prompt": "During photosynthesis, plants take up what gas?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-008"
+    },
+    {
+      "id": "q-0178",
+      "prompt": "What is the sum of the interior angles of a quadrilateral in degrees?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-029"
+    },
+    {
+      "id": "q-0179",
+      "prompt": "What organelle produces most of a cell's energy?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-012"
+    },
+    {
+      "id": "q-0180",
+      "prompt": "WHICH OCEAN IS THE LARGEST BY SURFACE AREA?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-004"
+    },
+    {
+      "id": "q-0181",
+      "prompt": "How can I improve my public speaking skills?",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0182",
+      "prompt": "What year did the Berlin Wall come down?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-015"
+    },
+    {
+      "id": "q-0183",
+      "prompt": "Recommend a good book on stoic philosophy.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0184",
+      "prompt": "If a store offers a 20% discount on a $50 item, what is the sale price?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-031"
+    },
+    {
+      "id": "q-0185",
+      "prompt": "How does a stack differ from a queue?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-024"
+    },
+    {
+      "id": "q-0186",
+      "prompt": "Give me a recipe for vegetarian chili.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    },
+    {
+      "id": "q-0187",
+      "prompt": "Compound $1,000 for 5 years at 5% interest per year; what is the result?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-027"
+    },
+    {
+      "id": "q-0188",
+      "prompt": "Water's boiling point at sea level in Celsius is what?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-010"
+    },
+    {
+      "id": "q-0189",
+      "prompt": "WHAT DOES HTTP STAND FOR?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-019"
+    },
+    {
+      "id": "q-0190",
+      "prompt": "HOW FAST DOES LIGHT TRAVEL IN A VACUUM?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-007"
+    },
+    {
+      "id": "q-0191",
+      "prompt": "What did the US federal minimum wage stand at in 2020?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-028"
+    },
+    {
+      "id": "q-0192",
+      "prompt": "in what year did world war ii end?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-013"
+    },
+    {
+      "id": "q-0193",
+      "prompt": "In what year did World War I end 1918?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-013"
+    },
+    {
+      "id": "q-0194",
+      "prompt": "What is the square root of 169?",
+      "category": "adversarial",
+      "expected_cache_status": "MISS",
+      "source_seed_id": "seed-026"
+    },
+    {
+      "id": "q-0195",
+      "prompt": "What is the sqrt of 144?",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-026"
+    },
+    {
+      "id": "q-0196",
+      "prompt": "who was the first president of the united states?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-014"
+    },
+    {
+      "id": "q-0197",
+      "prompt": "Expand the acronym HTTP.",
+      "category": "paraphrased",
+      "expected_cache_status": "HIT-L2",
+      "source_seed_id": "seed-019"
+    },
+    {
+      "id": "q-0198",
+      "prompt": "WHAT IS THE CAPITAL CITY OF AUSTRALIA?",
+      "category": "identical",
+      "expected_cache_status": "HIT-L1",
+      "source_seed_id": "seed-000"
+    },
+    {
+      "id": "q-0199",
+      "prompt": "Give me tips for a first-time marathon runner.",
+      "category": "distinct",
+      "expected_cache_status": "MISS",
+      "source_seed_id": null
+    }
+  ]
+}
